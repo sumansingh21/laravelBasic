@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostControllerWithModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -7,17 +8,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/',function (Request $request) {
-    dd($request->all());
-});
+// Route::get('/posts',[PostControllerWithModel::class,'index']);
 
-Route::put('/{id}',function (Request $request, $id) {
-    return $id;
-});
+// Route::get('/posts/create',[PostControllerWithModel::class,'create']);
 
-Route::delete('/{id}',function (Request $request, $id) {
-    return $id;
-});
+// Route::post('/posts', [PostControllerWithModel::class, 'store']);
+
+// Route::get('/posts/{id}', [PostControllerWithModel::class, 'show']);
+
+// Route::get('/posts/{id}/edit', [PostControllerWithModel::class, 'edit']);
+
+// Route::put('/posts/{id}',[PostControllerWithModel::class, 'update']);
+
+// Route::delete('/posts/{id}',[PostControllerWithModel::class, 'destroy']);
+
+Route::view('/','welcome');
+
+Route::resource('/posts', PostControllerWithModel::class);
+
 
 Route::get('/test',function () {
     return "<h1> Test </h1>";
