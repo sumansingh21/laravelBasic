@@ -38,7 +38,15 @@ class PostControllerWithModel extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+            $validate = $request->validate([
+                'title' => ['required','min:5','max:255'],
+                'content' => ['required','min:10'],
+            ]);
+
+        Post::create($validate);
+
+        return to_route('posts.index');
     }
 
     /**
