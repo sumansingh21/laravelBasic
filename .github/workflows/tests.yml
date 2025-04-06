@@ -44,7 +44,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        # run: vendor/bin/phpunit
-        run: php artisan test --verbose # Changed from vendor/bin/phpunit
-        env:
-           APP_DEBUG: true
+        run: vendor/bin/phpunit
