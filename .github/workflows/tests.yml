@@ -34,8 +34,23 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
 
+        # new added 
+      - name: Setup Node.js (for Tailwind CSS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
+
+        # new added 
+      - name: Install npm dependencies (Tailwind, Vite, etc.)
+        run: npm install
+
+        # new added 
+      - name: Build Tailwind CSS (Vite/Mix)
+        run: npm run build
 
       - name: Copy environment file
         run: cp .env.example .env
