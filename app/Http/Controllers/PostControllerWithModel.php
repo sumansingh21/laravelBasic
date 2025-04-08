@@ -13,16 +13,10 @@ class PostControllerWithModel extends Controller
      */
     public function index()
     {
-        $name = 'Aifred';
-        $age = 32;
-        $posts = [
-            'post 1',
-            'post 2',
-            'post 3',
-            'post 4',
-        ];
+        
+        $posts = Post::all();
 
-        return view('posts.index',['name'=> $name, 'age' => $age, 'posts' => $posts]);
+        return view('posts.index',['posts' => $posts]);
     }
 
     /**
@@ -52,20 +46,21 @@ class PostControllerWithModel extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show($id)
     {
         // return view('posts.show',['post'=>$post]);
-        return view('posts.show');
+        $post = Post::findOrFail($id);
+        return view('posts.show', ['posts' => $post]);
 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit(Post $post)
     {
         // return view('posts.edit',['post'=>$post]);
-        return view('posts.edit');
+        return view('posts.edit', ['posts' => $post]);
 
     }
 
@@ -74,7 +69,13 @@ class PostControllerWithModel extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validate = $request->validate([
+            'title' => ['required','min:5','max:255'],
+            'content' => ['required','min:10'],
+        ]);
+
+        $post->update($validate);
+        return to_route('posts.index');
     }
 
     /**
