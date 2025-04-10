@@ -36,7 +36,7 @@ Route::get('/login',[LoginUserController::class, 'login'])->name('login');
 
 Route::post('/login',[LoginUserController::class, 'store'])->name('login.store');
 
-
+Route::post('/logout',[LoginUserController::class, 'logout'])->name('logout');
 
 
 Route::get('/test',function () {
