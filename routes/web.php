@@ -24,21 +24,29 @@ Route::get('/', function () {
 
 // Route::delete('/posts/{id}',[PostControllerWithModel::class, 'destroy']);
 
-Route::view('/','welcome');
+Route::view('/', 'welcome');
 
-Route::resource('/posts', PostControllerWithModel::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/posts/create', [PostControllerWithModel::class, 'create'])->name('posts.create');
+    Route::post('/posts', [PostControllerWithModel::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}/edit', [PostControllerWithModel::class, 'edit'])->name('posts.edit');
+    Route::put('/posts/{post}', [PostControllerWithModel::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [PostcontrollerWithModel::class, 'destroy'])->name('posts.destroy');
+    Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
+});
 
-Route::get('/register',[RegisterUserController::class, 'register'])->name('register');
+// Route::resource('/posts', PostControllerWithModel::class);
 
-Route::post('/register',[RegisterUserController::class, 'store'])->name('register.store');
+Route::get('/posts', [PostControllerWithModel::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}', [PostControllerWithModel::class, 'show'])->middleware('can-view-post')->name('posts.show');
 
-Route::get('/login',[LoginUserController::class, 'login'])->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisterUserController::class, 'register'])->name('register');
+    Route::post('/register', [RegisterUserController::class, 'store'])->name('register.store');
+    Route::get('/login', [LoginUserController::class, 'login'])->name('login');
+    Route::post('/login', [LoginUserController::class, 'store'])->name('login.store');
+});
 
-Route::post('/login',[LoginUserController::class, 'store'])->name('login.store');
-
-Route::post('/logout',[LoginUserController::class, 'logout'])->name('logout');
-
-
-Route::get('/test',function () {
+Route::get('/test', function () {
     return "<h1> Test </h1>";
 });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class PostControllerWithModel extends Controller
 {
@@ -24,6 +26,10 @@ class PostControllerWithModel extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+           return to_route ('login');
+        }
+    
         return view('posts.create');
     }
 
