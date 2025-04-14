@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
+
 class PostControllerWithModel extends Controller
 {
     /**
@@ -44,7 +45,11 @@ class PostControllerWithModel extends Controller
                 'content' => ['required','min:10'],
             ]);
 
-        Post::create($validate);
+        //     $validate['user_id'] = Auth::id();
+
+        // Post::create($validate);
+
+        Auth::user()->posts()->create($validate);
 
         return to_route('posts.index');
     }
