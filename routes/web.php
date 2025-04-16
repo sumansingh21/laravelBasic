@@ -29,7 +29,7 @@ Route::view('/', 'welcome');
 Route::middleware('auth')->group(function () {
     Route::get('/posts/create', [PostControllerWithModel::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostControllerWithModel::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}/edit', [PostControllerWithModel::class, 'edit'])->name('posts.edit');
+    Route::get('/posts/{post}/edit', [PostControllerWithModel::class, 'edit'])->can('update','post')->name('posts.edit');
     Route::put('/posts/{post}', [PostControllerWithModel::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostcontrollerWithModel::class, 'destroy'])->name('posts.destroy');
     Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
