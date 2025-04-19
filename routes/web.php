@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\PostControllerWithModel;
 use App\Http\Controllers\RegisterUserController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +34,17 @@ Route::middleware('auth')->group(function () {
     Route::put('/posts/{post}', [PostControllerWithModel::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostcontrollerWithModel::class, 'destroy'])->name('posts.destroy');
     Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
+
+    Route::get('/admin', [AdminController::class, 'index'])->middleware('is-admin')->name('admin');
 });
 
 // Route::resource('/posts', PostControllerWithModel::class);
 
 Route::get('/posts', [PostControllerWithModel::class, 'index'])->name('posts.index');
-Route::get('/posts/{post}', [PostControllerWithModel::class, 'show'])->middleware('can-view-post')->name('posts.show');
+// Route::get('/posts/{post}', [PostControllerWithModel::class, 'show'])->middleware('can-view-post')->name('posts.show');
+Route::get('/posts/{post}', [PostControllerWithModel::class, 'show'])->name('posts.show');
+
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisterUserController::class, 'register'])->name('register');

@@ -3,11 +3,29 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Log;
 use App\Models\Post;
 use App\Models\User;
 
 class PostPolicy
 {
+
+    public function before(User $user, string $ability): bool|null
+{
+    // Log::info("🔐 PostPolicy before() called", [
+    //     'user_id' => $user->id,
+    //     'ability' => $ability,
+    //     'is_admin' => $user->is_admin,
+    // ]);
+
+    
+    if ($user->is_admin) {
+        return true;
+    }
+ 
+    return null;
+}
+
     /**
      * Determine whether the user can view any models.
      */

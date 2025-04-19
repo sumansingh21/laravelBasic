@@ -71,11 +71,11 @@ class PostControllerWithModel extends Controller
     public function edit(Post $post)
     {
         Gate::authorize('update',$post);
-        if($post->user_id !== Auth::id()){
-            abort(403);
-        } else {
+        // if($post->user_id !== Auth::id()){
+        //     abort(403);
+        // } else {
 
-        }
+        // }
         // return view('posts.edit',['post'=>$post]);
         return view('posts.edit', ['posts' => $post]);
 
@@ -104,11 +104,11 @@ class PostControllerWithModel extends Controller
 
         Gate::authorize('delete',$post);
 
-        if($post->user_id !== Auth::id()){
-            abort(403);
-        } else {
-            $post->delete();
-        }
+        // if($post->user_id !== Auth::id()){
+        //     abort(403);
+        // } else {
+        //     $post->delete();
+        // }
         return to_route('posts.index');
     }
 }
