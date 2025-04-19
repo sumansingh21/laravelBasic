@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\File;
 
 
 class PostControllerWithModel extends Controller
@@ -43,7 +44,11 @@ class PostControllerWithModel extends Controller
             $validate = $request->validate([
                 'title' => ['required','min:5','max:255'],
                 'content' => ['required','min:10'],
+                'thumbnail' =>['required','image'],
             ]);
+
+            $validate['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+
 
         //     $validate['user_id'] = Auth::id();
 
@@ -90,8 +95,15 @@ class PostControllerWithModel extends Controller
         $validate = $request->validate([
             'title' => ['required','min:5','max:255'],
             'content' => ['required','min:10'],
+            'thumbnail' =>['sometimes','image'],
         ]);
 
+        if($request->hasFile('thumbnail')){
+            $path = storage_path('app/public/'.$post->thumbnail);
+            File::delete(storage_path('app/public/'.$post->thumbnail));
+            logger('Trying to delete: ' . $path);
+            $validate['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        }
         $post->update($validate);
         return to_route('posts.index');
     }
@@ -103,7 +115,8 @@ class PostControllerWithModel extends Controller
     {
 
         Gate::authorize('delete',$post);
-
+        File::delete(storage_path('app/public/'.$post->thumbnail));
+        $post->delete();
         // if($post->user_id !== Auth::id()){
         //     abort(403);
         // } else {
