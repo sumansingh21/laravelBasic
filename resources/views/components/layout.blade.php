@@ -10,10 +10,18 @@
 </head>
 
 {{-- <body class="bg-slate-100 dark:bg-slate-900"> --}}
-  <body class="bg-slate-100">
-  <x-navbar />
+
+<body class="bg-slate-100">
+    <x-navbar />
+
+    @if (session('message'))
+        <div class="p-4 mb-4 mt-6 mx-5 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <span class="font-medium">{{ session('message') }}</span>
+        </div>
+    @endif
     <div class="max-w-6xl mx-auto">
-    {{ $slot }}
+        {{ $slot }}
     </div>
 </body>
 

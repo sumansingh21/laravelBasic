@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendNewPostMailJOb;
-
+use Illuminate\Support\Facades\Cache;
 
 
 
@@ -23,7 +23,21 @@ class PostControllerWithModel extends Controller
     public function index()
     {
         
-        $posts = Post::all();
+        // $posts = Post::all();
+        // $posts = Post::paginate(3);
+
+        // if(Cache::has('posts')){
+        //     $posts = Cache::get('posts');
+        // } else {
+        //     sleep(4);
+        //     $posts = Post::paginate(3);
+        //     Cache::put('posts',$posts, 10);
+        // }
+
+        $posts = Cache::remember('posts', 10, function(){
+            sleep(4);
+            return Post::paginate(3);
+        });
 
         return view('posts.index',['posts' => $posts]);
     }
@@ -66,7 +80,7 @@ class PostControllerWithModel extends Controller
         // Mail::to(auth()->user()->email)->send(new PostMail());
 
 
-        return to_route('posts.index');
+        return to_route('posts.index')->with('message', 'Post Created Successfully');
     }
 
     /**
@@ -74,9 +88,19 @@ class PostControllerWithModel extends Controller
      */
     public function show($id)
     {
+        
         // return view('posts.show',['post'=>$post]);
         $post = Post::findOrFail($id);
         return view('posts.show', ['posts' => $post]);
+
+         // try{
+        //     $post = Post::findOrFail($id);
+        //          // return view('posts.show',['post'=>$post]);
+        // $post = Post::findOrFail($id);
+        // return view('posts.show', ['posts' => $post]);
+        // } catch (ModelNotFoundException $e){
+        //     return $e->getMessage();
+        // }
 
     }
 
@@ -115,7 +139,7 @@ class PostControllerWithModel extends Controller
             $validate['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
         }
         $post->update($validate);
-        return to_route('posts.index');
+        return to_route('posts.index')->with('message', 'Post Updated Successfully');
     }
 
     /**
