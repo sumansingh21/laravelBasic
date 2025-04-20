@@ -3,5 +3,7 @@
 
 Your post title is: {{ $data['title'] }}
 
+Sending this mail using Jobs
+
 Thanks, Laravel Project
 </x-mail::message>

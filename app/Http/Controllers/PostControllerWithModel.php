@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendNewPostMailJOb;
+
 
 
 
@@ -59,8 +61,9 @@ class PostControllerWithModel extends Controller
 
         Auth::user()->posts()->create($validate);
 
+        dispatch(new SendNewPostMailJOb(['email' => Auth::user()->email, 'name' => Auth::user()->name, 'title'=> $validate['title']]));
+
         // Mail::to(auth()->user()->email)->send(new PostMail());
-        Mail::to(Auth::user()->email)->send(new PostMail(['name' => 'Tony', 'title' => $validate['title']]));
 
 
         return to_route('posts.index');
