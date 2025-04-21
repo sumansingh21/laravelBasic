@@ -35,7 +35,7 @@ The frontend uses Laravel Blade with Vite and Flowbite UI for a clean, responsiv
 - **Performance Enhancements**
   - Use of Laravel Cache for optimization
   - Background job processing using Laravel Queues
-  - Scheduled tasks via Laravel Scheduler (e.g., cleanup, reports)
+  - Scheduled tasks via Laravel Scheduler 
 
 - **Communication**
   - Email notifications (e.g., on post creation)
