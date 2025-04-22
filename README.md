@@ -19,26 +19,34 @@ This project serves as a real-world implementation of several core Laravel featu
 The frontend uses Laravel Blade with Vite and Flowbite UI for a clean, responsive design. The app also demonstrates real-world usage of Laravel’s ecosystem including authentication, queues, email services, and more.
 
 ---
+## ✨ Core Functionalities (Key Features)
 
-## ✨ Core Functionalities
-
-- **Authentication & Authorization**
+- 🔐 **Authentication & Authorization**
   - User registration, login, logout
   - Role-based access control (Admin/User)
-  - Admin dashboard for centralized control
+  - Middleware for route protection
+  - Laravel Policy used for Post authorization (PostPolicy)
 
-- **Post Management**
-  - Create, edit, delete posts with file/image upload
-  - View all posts with clean pagination
-  - Post detail pages with full content
+- 📝 **Post Management**
+  - Create, edit, delete posts
+  - View all posts with pagination
+  - View full post details
+  - File/image upload with validation
 
-- **Performance Enhancements**
-  - Use of Laravel Cache for optimization
-  - Background job processing using Laravel Queues
-  - Scheduled tasks via Laravel Scheduler 
+- 🧩 **Data Relationships**
+  - Eloquent relationships (User → Posts, etc.)
+  - Efficient use of model binding and eager loading
 
-- **Communication**
-  - Email notifications (e.g., on post creation)
+- ⚡ **Performance & Background Tasks**
+  - Caching implemented for performance
+  - Queue jobs for background processing
+  - Task Scheduling with Laravel Scheduler
+
+- 📬 **Notifications**
+  - Email notifications triggered on key events (e.g., post creation)
+
+- 🧑‍💼 **Admin Dashboard**
+  - Centralized view for managing all posts and users
 
 ---
 
